@@ -16,6 +16,7 @@
     "pod-install": "npx pod-install"
   },
   "dependencies": {
+    "@flyerhq/react-native-link-preview": "^1.6.0",
     "@react-native-masked-view/masked-view": "^0.3.2",
     "@react-navigation/native": "^7.1.1",
     "@react-navigation/stack": "^7.2.5",
@@ -25,6 +26,7 @@
     "ky": "^1.8.0",
     "react": "19.0.0",
     "react-error-boundary": "^5.0.0",
+    "react-fast-compare": "^3.2.2",
     "react-i18next": "^15.4.1",
     "react-native": "0.78.2",
     "react-native-gesture-handler": "^2.25.0",

@@ -13,7 +13,7 @@ type Properties = {
 
 const icons = getAssetsContext('icons');
 const EXTENSION = 'svg';
-const SIZE = 24;
+const SIZE = 20;
 
 function IconByVariant({
   height = SIZE,

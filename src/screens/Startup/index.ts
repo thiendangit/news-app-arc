@@ -1,1 +1,1 @@
-export { default } from './Startup'; 
+export { StartUpScreen } from './Startup';

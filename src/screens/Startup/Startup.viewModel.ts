@@ -7,34 +7,36 @@ import { useTranslation } from 'react-i18next';
 import { Paths } from '@/navigation/paths';
 import { useTheme } from '@/theme';
 
-export const useStartupViewModel = ({ navigation }: RootScreenProps<Paths.Startup>) => {
-    const theme = useTheme();
-    const { t } = useTranslation();
+export const useStartupViewModel = ({
+  navigation,
+}: RootScreenProps<Paths.Startup>) => {
+  const theme = useTheme();
+  const { t } = useTranslation();
 
-    const { isError, isFetching, isSuccess } = useQuery({
-        queryFn: () => {
-            return Promise.resolve(true);
-        },
-        queryKey: ['startup'],
-    });
+  const { isError, isFetching, isSuccess } = useQuery({
+    queryFn: () => {
+      return Promise.resolve(true);
+    },
+    queryKey: ['startup'],
+  });
 
-    useEffect(() => {
-        if (isSuccess) {
-            navigation.reset({
-                index: 0,
-                routes: [{ name: Paths.Example }],
-            });
-        }
-    }, [isSuccess, navigation]);
+  useEffect(() => {
+    if (isSuccess) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: Paths.Home }],
+      });
+    }
+  }, [isSuccess, navigation]);
 
-    return {
-        // State
-        isError,
-        isFetching,
-        isSuccess,
-
-        // Theme & Translations
-        t,
-        theme,
-    };
-}; 
+  return {
+    // State
+    selectors: {
+      isError,
+      isFetching,
+      isSuccess,
+      t,
+      theme,
+    },
+  };
+};

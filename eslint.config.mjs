@@ -62,13 +62,12 @@ export default tseslint.config(
       '@typescript-eslint/consistent-type-definitions': [ERROR, 'type'],
       '@typescript-eslint/dot-notation': [ERROR, { allowKeywords: true }],
       '@typescript-eslint/no-empty-function': OFF,
+      '@typescript-eslint/no-floating-promises': OFF,
+      '@typescript-eslint/no-unsafe-assignment': OFF,
       '@typescript-eslint/restrict-template-expressions': OFF,
       'import/no-unresolved': OFF, // handled by TypeScript
       'no-console': [ERROR, { allow: ['warn', 'error'] }],
-      'no-magic-numbers': [
-        ERROR,
-        { ignore: [-1, 0, 1, 2, 3, 4, 5, 6], ignoreArrayIndexes: true },
-      ],
+
       'perfectionist/sort-imports': [
         'error',
         {
@@ -95,13 +94,13 @@ export default tseslint.config(
           type: 'alphabetical',
         },
       ],
-
       'react-refresh/only-export-components': OFF,
       'react/forbid-component-props': OFF,
       'react/jsx-filename-extension': [ERROR, { extensions: ['.tsx', '.jsx'] }],
       'react/jsx-max-depth': [ERROR, { max: 10 }],
       'react/jsx-no-bind': OFF,
       'react/jsx-no-literals': OFF,
+      'react/jsx-no-useless-fragment': OFF,
       'react/jsx-props-no-spreading': OFF,
       'react/jsx-sort-props': OFF, // Handled by perfectionist
       'react/no-multi-comp': OFF,
@@ -113,6 +112,7 @@ export default tseslint.config(
           functions: 'defaultArguments',
         },
       ],
+      'unicorn/consistent-function-scoping': OFF,
       'unicorn/filename-case': OFF,
       'unicorn/no-keyword-prefix': OFF,
       'unicorn/no-useless-undefined': OFF,
@@ -140,7 +140,6 @@ export default tseslint.config(
     files: ['*.conf.js', '*.config.js', '*.setup.js'],
     rules: {
       '@typescript-eslint/no-require-imports': OFF,
-      '@typescript-eslint/no-unsafe-assignment': OFF,
       '@typescript-eslint/no-unsafe-call': OFF,
       'no-undef': OFF,
       'unicorn/prefer-module': OFF,

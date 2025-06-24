@@ -26,7 +26,11 @@ function SafeScreen({
   const { layout, navigationTheme, variant } = useTheme();
 
   return (
-    <SafeAreaView {...props} mode="padding" style={[layout.flex_1, style]}>
+    <SafeAreaView
+      {...props}
+      edges={['top', 'left', 'right']}
+      style={[layout.flex_1, style]}
+    >
       <StatusBar
         backgroundColor={navigationTheme.colors.background}
         barStyle={variant === 'dark' ? 'light-content' : 'dark-content'}

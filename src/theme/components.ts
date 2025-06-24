@@ -14,9 +14,9 @@ const generateComponentStyles = ({
       ...layout.itemsCenter,
       ...backgrounds.purple100,
       ...fonts.gray400,
-      borderRadius: 35,
-      height: 64,
-      width: 64,
+      borderRadius: 16,
+      height: 32,
+      width: 32,
     },
     circle250: {
       borderRadius: 140,
