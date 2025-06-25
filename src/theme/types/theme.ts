@@ -7,9 +7,7 @@ import type componentGenerators from '@/theme/components';
 import type layout from '@/theme/layout';
 import type { Colors } from '@/theme/types/colors';
 import type { Theme as NavigationTheme } from '@react-navigation/native';
-
 export type ComponentTheme = Omit<Theme, 'components' | 'navigationTheme'>;
-
 export type Theme = {
   backgrounds: Backgrounds;
   borders: Borders;

@@ -5,32 +5,23 @@ import type {
 } from '@/theme/types/config';
 
 import { config } from '@/theme/_config';
-
 function hasProperty<Config, KeyPath extends string>(
   configuration: Config,
   property: KeyPath,
 ): configuration is Config & HasProperty<Config, KeyPath> {
   const parts = property.split('.');
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let currentObject: any = configuration;
-
   for (const part of parts) {
     if (!(part in currentObject)) {
       return false;
     }
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     currentObject = currentObject[part];
   }
-
   return true;
 }
-
 const buildConfig = (variant: Variant) => {
   const { variants, ...defaultConfig } = config;
   const variantConfig = variant === 'default' ? undefined : variants[variant];
-
   const fontColors = {
     ...defaultConfig.fonts.colors,
     ...(variantConfig && hasProperty(variantConfig, 'fonts.colors')
@@ -61,7 +52,6 @@ const buildConfig = (variant: Variant) => {
       ? variantConfig.colors
       : {}),
   };
-
   return {
     backgrounds: backgroundColors,
     borders: {
@@ -78,5 +68,4 @@ const buildConfig = (variant: Variant) => {
     navigationColors,
   } as const satisfies FulfilledThemeConfiguration;
 };
-
 export default buildConfig;

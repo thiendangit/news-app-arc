@@ -1,6 +1,6 @@
 import type { RootScreenProps } from '@/navigation/types';
 
-import {memo} from "react";
+import { memo } from "react";
 import isEqual from "react-fast-compare";
 import { ActivityIndicator, Text, View } from 'react-native';
 
@@ -11,14 +11,11 @@ import { SafeScreen } from '@/components/templates';
 
 import { useStartupStyles } from './Startup.styles';
 import { useStartupViewModel } from './Startup.viewModel';
-
 function Startup({ navigation, route }: RootScreenProps<Paths.Startup>) {
   const {
     selectors: { isError, isFetching, t },
   } = useStartupViewModel({ navigation, route });
-
   const styles = useStartupStyles();
-
   return (
     <SafeScreen>
       <View style={styles.container}>
@@ -33,5 +30,4 @@ function Startup({ navigation, route }: RootScreenProps<Paths.Startup>) {
     </SafeScreen>
   );
 }
-
 export const StartUpScreen = memo(Startup, isEqual);

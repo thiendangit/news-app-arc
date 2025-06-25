@@ -10,17 +10,14 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useTheme } from '@/theme';
-
 type Properties = {
   readonly height?: DimensionValue;
   readonly loading?: boolean;
   readonly width?: DimensionValue;
 } & ViewProps;
-
 const FROM = 0.2;
 const TO = 1;
 const HEIGHT = 24;
-
 function SkeletonLoader({
   children,
   height = HEIGHT,
@@ -29,20 +26,16 @@ function SkeletonLoader({
   ...props
 }: Properties) {
   const { backgrounds, borders } = useTheme();
-
   const opacity = useSharedValue(FROM);
-
   const animatedStyles = useAnimatedStyle(() => ({
     opacity: opacity.value,
   }));
-
   useEffect(() => {
     if (!loading) {
       return;
     }
     opacity.value = withRepeat(withTiming(TO, { duration: 800 }), -1, true);
   }, [loading, opacity]);
-
   return (
     <View
       {...props}
@@ -68,5 +61,4 @@ function SkeletonLoader({
     </View>
   );
 }
-
 export default SkeletonLoader;

@@ -1,0 +1,77 @@
+{
+    "myhackerapiapp": {
+        "common_appName": {
+            "full": "MyHackerAPIApp React Native",
+            "initials": "RNB"
+        },
+        "common_error": "Đã xảy ra lỗi.",
+        "screen_example": {
+            "name": "Tin Mới Nhất",
+            "hello_user": "Xin chào, tôi là {{name}}",
+            "title": "Mọi tin tức đều có ở đây",
+            "description": "Bạn muốn khám phá các tính năng? Hãy nhấp vào một trong ba nút ở cuối màn hình. Nút đầu tiên cho phép gọi API REST. Nút thứ hai cho phép thay đổi màu chủ đề. Và nút thứ ba cho phép thay đổi ngôn ngữ"
+        },
+        "error_boundary": {
+            "title": "Oops! Đã xảy ra lỗi.",
+            "description": "Chúng tôi xin lỗi vì sự bất tiện này. Vui lòng thử lại sau.",
+            "cta": "Tải lại màn hình"
+        },
+        "time": {
+            "just_now": "vừa mới",
+            "minutes_ago": "{{count}} phút trước",
+            "hours_ago": "{{count}} giờ trước",
+            "days_ago": "{{count}} ngày trước"
+        },
+        "story": {
+            "type": {
+                "story": "tin tức",
+                "job": "việc làm",
+                "ask": "hỏi đáp",
+                "show": "chia sẻ"
+            }
+        },
+        "home": {
+            "loading_stories": "Đang tải tin tức...",
+            "loading_more": "Đang tải thêm tin tức...",
+            "refreshing": "Đang làm mới...",
+            "no_stories": "Không tìm thấy tin tức",
+            "retry": "Thử lại",
+            "tabs": {
+                "new": "Mới",
+                "best": "Hay nhất",
+                "top": "Hàng đầu"
+            }
+        },
+        "startup": {
+            "loading": "Đang tải..."
+        },
+        "story_detail": {
+            "loading_story": "Đang tải tin tức...",
+            "failed_to_load": "Không thể tải tin tức. Vui lòng thử lại.",
+            "retry": "Thử lại",
+            "by": "bởi",
+            "points": "điểm",
+            "comments": "bình luận",
+            "no_comments": "Chưa có bình luận",
+            "load_more_comments": "Tải thêm bình luận",
+            "read_full_article": "Đọc bài viết đầy đủ",
+            "comments_section": "Bình luận",
+            "story_type": {
+                "story": "Tin tức",
+                "job": "Việc làm",
+                "poll": "Khảo sát"
+            },
+            "url_error": {
+                "cannot_open": "Không thể mở URL",
+                "open_error": "Đã xảy ra lỗi khi mở URL"
+            },
+            "actions": {
+                "copy_link": "Sao chép liên kết",
+                "share": "Chia sẻ",
+                "like": "Thích",
+                "copy_success": "Đã sao chép liên kết",
+                "share_success": "Đã chia sẻ thành công"
+            }
+        }
+    }
+}

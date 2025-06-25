@@ -63,11 +63,12 @@ export default tseslint.config(
       '@typescript-eslint/dot-notation': [ERROR, { allowKeywords: true }],
       '@typescript-eslint/no-empty-function': OFF,
       '@typescript-eslint/no-floating-promises': OFF,
+      '@typescript-eslint/no-misused-promises': OFF,
       '@typescript-eslint/no-unsafe-assignment': OFF,
       '@typescript-eslint/restrict-template-expressions': OFF,
       'import/no-unresolved': OFF, // handled by TypeScript
-      'no-console': [ERROR, { allow: ['warn', 'error'] }],
 
+      'no-console': [ERROR, { allow: ['warn', 'error'] }],
       'perfectionist/sort-imports': [
         'error',
         {

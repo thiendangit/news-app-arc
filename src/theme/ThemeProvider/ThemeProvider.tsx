@@ -34,24 +34,17 @@ import {
 import { generateGutters, staticGutterStyles } from '@/theme/gutters';
 import layout from '@/theme/layout';
 import generateConfig from '@/theme/ThemeProvider/generateConfig';
-
 type Context = {
   changeTheme: (variant: Variant) => void;
 } & Theme;
-
 export const ThemeContext = createContext<Context | undefined>(undefined);
-
 type Properties = PropsWithChildren<{
   readonly storage: MMKV;
 }>;
-
 function ThemeProvider({ children = false, storage }: Properties) {
-  // Current theme variant
   const [variant, setVariant] = useState(
     (storage.getString('theme') ?? 'default') as Variant,
   );
-
-  // Initialize theme at default if not defined
   useEffect(() => {
     const appHasThemeDefined = storage.contains('theme');
     if (!appHasThemeDefined) {
@@ -59,7 +52,6 @@ function ThemeProvider({ children = false, storage }: Properties) {
       setVariant('default');
     }
   }, [storage]);
-
   const changeTheme = useCallback(
     (nextVariant: Variant) => {
       setVariant(nextVariant);
@@ -67,12 +59,9 @@ function ThemeProvider({ children = false, storage }: Properties) {
     },
     [storage],
   );
-
-  // Flatten config with current variant
   const fullConfig = useMemo(() => {
     return generateConfig(variant) satisfies FulfilledThemeConfiguration;
   }, [variant]);
-
   const fonts = useMemo(() => {
     return {
       ...generateFontSizes(),
@@ -80,21 +69,18 @@ function ThemeProvider({ children = false, storage }: Properties) {
       ...staticFontStyles,
     };
   }, [fullConfig]);
-
   const backgrounds = useMemo(() => {
     return {
       ...generateBackgrounds(fullConfig),
       ...staticBackgroundStyles,
     };
   }, [fullConfig]);
-
   const gutters = useMemo(() => {
     return {
       ...generateGutters(fullConfig),
       ...staticGutterStyles,
     };
   }, [fullConfig]);
-
   const borders = useMemo(() => {
     return {
       ...generateBorderColors(fullConfig),
@@ -103,7 +89,6 @@ function ThemeProvider({ children = false, storage }: Properties) {
       ...staticBorderStyles,
     };
   }, [fullConfig]);
-
   const navigationTheme = useMemo(() => {
     if (variant === 'dark') {
       return {
@@ -118,7 +103,6 @@ function ThemeProvider({ children = false, storage }: Properties) {
       dark: false,
     };
   }, [variant, fullConfig.navigationColors]);
-
   const theme = useMemo(() => {
     return {
       backgrounds,
@@ -130,18 +114,14 @@ function ThemeProvider({ children = false, storage }: Properties) {
       variant,
     } satisfies ComponentTheme;
   }, [variant, fonts, backgrounds, borders, fullConfig.colors, gutters]);
-
   const components = useMemo(() => {
     return componentsGenerator(theme);
   }, [theme]);
-
   const value = useMemo(() => {
     return { ...theme, changeTheme, components, navigationTheme };
   }, [theme, components, navigationTheme, changeTheme]);
-
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
-
 export default ThemeProvider;

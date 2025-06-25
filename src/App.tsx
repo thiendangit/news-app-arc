@@ -7,23 +7,22 @@ import { MMKV } from 'react-native-mmkv';
 import ApplicationNavigator from '@/navigation/Application';
 import { ThemeProvider } from '@/theme';
 import '@/translations';
-
+export const storage = new MMKV();
 export const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {
       retry: false,
     },
     queries: {
+      gcTime: 10 * 60 * 1000,
       retry: false,
+      staleTime: 5 * 60 * 1000,
     },
   },
 });
-
-export const storage = new MMKV();
-
-function App() {
+function App(): React.JSX.Element {
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider storage={storage}>
           <ApplicationNavigator />
@@ -32,5 +31,4 @@ function App() {
     </GestureHandlerRootView>
   );
 }
-
 export default App;

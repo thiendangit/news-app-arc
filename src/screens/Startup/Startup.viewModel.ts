@@ -6,20 +6,17 @@ import { useTranslation } from 'react-i18next';
 
 import { Paths } from '@/navigation/paths';
 import { useTheme } from '@/theme';
-
 export const useStartupViewModel = ({
   navigation,
 }: RootScreenProps<Paths.Startup>) => {
   const theme = useTheme();
   const { t } = useTranslation();
-
   const { isError, isFetching, isSuccess } = useQuery({
     queryFn: () => {
       return Promise.resolve(true);
     },
     queryKey: ['startup'],
   });
-
   useEffect(() => {
     if (isSuccess) {
       navigation.reset({
@@ -28,9 +25,7 @@ export const useStartupViewModel = ({
       });
     }
   }, [isSuccess, navigation]);
-
   return {
-    // State
     selectors: {
       isError,
       isFetching,

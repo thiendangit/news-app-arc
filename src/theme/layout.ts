@@ -1,11 +1,25 @@
 import type { ViewStyle } from 'react-native';
-
 export default {
+  absolute: {
+    position: 'absolute',
+  },
+  bottom0: {
+    bottom: 0,
+  },
   col: {
     flexDirection: 'column',
   },
   colReverse: {
     flexDirection: 'column-reverse',
+  },
+  flex_1: {
+    flex: 1,
+  },
+  fullHeight: {
+    height: '100%',
+  },
+  fullWidth: {
+    width: '100%',
   },
   itemsCenter: {
     alignItems: 'center',
@@ -34,32 +48,6 @@ export default {
   justifyStart: {
     justifyContent: 'flex-start',
   },
-  row: {
-    flexDirection: 'row',
-  },
-  rowReverse: {
-    flexDirection: 'row-reverse',
-  },
-  wrap: {
-    flexWrap: 'wrap',
-  },
-  /* Sizes Layouts */
-  flex_1: {
-    flex: 1,
-  },
-  fullHeight: {
-    height: '100%',
-  },
-  fullWidth: {
-    width: '100%',
-  },
-  /* Positions */
-  absolute: {
-    position: 'absolute',
-  },
-  bottom0: {
-    bottom: 0,
-  },
   left0: {
     left: 0,
   },
@@ -69,8 +57,17 @@ export default {
   right0: {
     right: 0,
   },
+  row: {
+    flexDirection: 'row',
+  },
+  rowReverse: {
+    flexDirection: 'row-reverse',
+  },
   top0: {
     top: 0,
+  },
+  wrap: {
+    flexWrap: 'wrap',
   },
   z1: {
     zIndex: 1,

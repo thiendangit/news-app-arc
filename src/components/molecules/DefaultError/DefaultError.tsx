@@ -5,16 +5,13 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '@/theme';
 
 import { IconByVariant } from '@/components/atoms';
-
 type Properties = {
   readonly onReset?: () => void;
 };
-
 function DefaultErrorScreen({ onReset = undefined }: Properties) {
   const { colors, fonts, gutters, layout } = useTheme();
   const { t } = useTranslation();
   const { resetBoundary } = useErrorBoundary();
-
   return (
     <View
       style={[
@@ -37,7 +34,6 @@ function DefaultErrorScreen({ onReset = undefined }: Properties) {
       <Text style={[fonts.gray800, fonts.size_12, fonts.alignCenter]}>
         {t('error_boundary.description')}
       </Text>
-
       {onReset ? (
         <TouchableOpacity
           onPress={() => {
@@ -53,5 +49,4 @@ function DefaultErrorScreen({ onReset = undefined }: Properties) {
     </View>
   );
 }
-
 export default DefaultErrorScreen;

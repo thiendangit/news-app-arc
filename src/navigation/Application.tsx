@@ -8,12 +8,9 @@ import { Paths } from '@/navigation/paths';
 import { useTheme } from '@/theme';
 
 import { HomeScreen, StartUpScreen, StoryDetailScreen } from '@/screens';
-
 const Stack = createStackNavigator<RootStackParamList>();
-
 function ApplicationNavigator() {
   const { navigationTheme, variant } = useTheme();
-
   return (
     <SafeAreaProvider>
       <NavigationContainer theme={navigationTheme}>
@@ -26,5 +23,4 @@ function ApplicationNavigator() {
     </SafeAreaProvider>
   );
 }
-
 export default ApplicationNavigator;

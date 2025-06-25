@@ -15,6 +15,63 @@
       "title": "Oops! Something went wrong.",
       "description": "We are sorry for the inconvenience. Please try again later.",
       "cta": "Reload the screen"
+    },
+    "time": {
+      "just_now": "just now",
+      "minutes_ago": "{{count}}m ago",
+      "hours_ago": "{{count}}h ago",
+      "days_ago": "{{count}}d ago"
+    },
+    "story": {
+      "type": {
+        "story": "story",
+        "job": "job",
+        "ask": "ask",
+        "show": "show"
+      }
+    },
+    "home": {
+      "loading_stories": "Loading stories...",
+      "loading_more": "Loading more stories...",
+      "refreshing": "Refreshing...",
+      "no_stories": "No stories found",
+      "retry": "Retry",
+      "tabs": {
+        "new": "New",
+        "best": "Best",
+        "top": "Top"
+      }
+    },
+    "startup": {
+      "loading": "Loading..."
+    },
+    "story_detail": {
+      "loading_story": "Loading story...",
+      "failed_to_load": "Failed to load story. Please try again.",
+      "retry": "Retry",
+      "by": "by",
+      "points": "points",
+      "comments": "comments",
+      "no_comments": "No comments yet",
+      "load_more_comments": "Load More Comments",
+      "read_full_article": "Read Full Article",
+      "comments_section": "Comments",
+      "story_type": {
+        "story": "Story",
+        "job": "Job",
+        "poll": "Poll"
+      },
+      "url_error": {
+        "cannot_open": "Cannot open URL",
+        "open_error": "An error occurred while opening the URL"
+      },
+      "actions": {
+        "copy_link": "Copy Link",
+        "share": "Share",
+        "like": "Like",
+        "copy_success": "Link copied",
+        "share_success": "Shared successfully"
+      }
     }
   }
 }

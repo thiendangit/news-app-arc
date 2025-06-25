@@ -9,15 +9,9 @@ import type { UnionConfiguration } from '@/theme/types/config';
 import type { ViewStyle } from 'react-native';
 
 import { config } from '@/theme/_config';
-
-/**
- * Generates border color styles from configuration
- * @param configuration
- */
 export const generateBorderColors = (configuration: UnionConfiguration) => {
   return Object.entries(
     configuration.borders.colors,
-    // eslint-disable-next-line unicorn/no-array-reduce
   ).reduce<BorderColors>((accumulator, [key, value]) => {
     return Object.assign(accumulator, {
       [key]: {
@@ -26,12 +20,7 @@ export const generateBorderColors = (configuration: UnionConfiguration) => {
     });
   }, {} as BorderColors);
 };
-
-/**
- * Generates border radius styles from configuration
- */
 export const generateBorderRadius = () => {
-  // eslint-disable-next-line unicorn/no-array-reduce
   return config.borders.radius.reduce<
     BorderBottomRadius & BorderRadius & BorderTopRadius
   >(
@@ -59,12 +48,7 @@ export const generateBorderRadius = () => {
     {} as BorderBottomRadius & BorderRadius & BorderTopRadius,
   );
 };
-
-/**
- * Generates border width styles from configuration
- */
 export const generateBorderWidths = () => {
-  // eslint-disable-next-line unicorn/no-array-reduce
   return config.borders.widths.reduce<BorderWidths>((accumulator, width) => {
     return Object.assign(accumulator, {
       [`w_${width}`]: {
@@ -85,11 +69,6 @@ export const generateBorderWidths = () => {
     });
   }, {} as BorderWidths);
 };
-
-/**
- * Static border styles
- * @desc These styles are not generated from configuration, you can add your own
- */
 export const staticBorderStyles = {} as const satisfies Record<
   string,
   ViewStyle

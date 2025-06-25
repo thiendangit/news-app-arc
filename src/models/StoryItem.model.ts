@@ -1,6 +1,6 @@
+import { formatStoryType, formatTime } from '@/utils/time';
 import { z } from 'zod';
 
-// Zod schema for validation
 export const StoryItemSchema = z.object({
     by: z.string().optional(),
     dead: z.boolean().optional(),
@@ -18,17 +18,16 @@ export const StoryItemSchema = z.object({
     type: z.enum(['comment', 'job', 'poll', 'pollopt', 'story']).optional(),
     url: z.string().optional(),
 });
-
 export type StoryItemType = z.infer<typeof StoryItemSchema>;
-
 export class StoryItemModel {
-    static version = 1.0;
-
-    id: number;
+    static version = 1;
     by: string;
     dead: boolean;
     deleted: boolean;
     descendants: number;
+    domain: string;
+    hasExternalUrl: boolean;
+    id: number;
     kids: number[];
     parent?: number;
     parts: number[];
@@ -36,16 +35,11 @@ export class StoryItemModel {
     score: number;
     text: string;
     time: number;
+    timeFormatted: string;
     title: string;
     type: 'comment' | 'job' | 'poll' | 'pollopt' | 'story';
-    url: string;
-
-    // Computed properties
-    timeFormatted: string;
-    domain: string;
     typeLabel: string;
-    hasExternalUrl: boolean;
-
+    url: string;
     constructor(
         id: number,
         by: string,
@@ -78,21 +72,13 @@ export class StoryItemModel {
         this.title = title;
         this.type = type;
         this.url = url;
-
-        // Computed properties - calculated inline to avoid circular dependency
         this.timeFormatted = time ? this.calculateTimeFormatted(time) : '';
         this.domain = url ? this.calculateDomain(url) : '';
         this.typeLabel = this.calculateTypeLabel();
         this.hasExternalUrl = Boolean(url && url.trim());
     }
-
-    /**
-     * Create StoryItemModel from API response
-     */
     static instantiate(json: unknown): StoryItemModel {
-        // Validate with Zod
         const validatedData = StoryItemSchema.parse(json);
-
         const id = validatedData.id;
         const by = validatedData.by ?? 'Anonymous';
         const dead = validatedData.dead ?? false;
@@ -108,7 +94,6 @@ export class StoryItemModel {
         const title = validatedData.title ?? 'No title';
         const type = validatedData.type ?? 'story';
         const url = validatedData.url ?? '';
-
         return new StoryItemModel(
             id,
             by,
@@ -127,20 +112,12 @@ export class StoryItemModel {
             url
         );
     }
-
-    /**
-     * Create list of StoryItemModel from array
-     */
     static instantiateList(json: unknown[]): StoryItemModel[] {
         return json
             .filter(item => item !== null)
-            .map(obj => StoryItemModel.instantiate(obj));
+            .map(object => StoryItemModel.instantiate(object));
     }
-
-    /**
-     * Safe instantiate - returns null if validation fails
-     */
-    static safeInstantiate(json: unknown): StoryItemModel | null {
+    static safeInstantiate(json: unknown): null | StoryItemModel {
         try {
             return StoryItemModel.instantiate(json);
         } catch (error) {
@@ -148,19 +125,28 @@ export class StoryItemModel {
             return null;
         }
     }
-
-    /**
-     * Safe instantiate list - filters out invalid items
-     */
     static safeInstantiateList(json: unknown[]): StoryItemModel[] {
         return json
-            .map(obj => StoryItemModel.safeInstantiate(obj))
+            .map(object => StoryItemModel.safeInstantiate(object))
             .filter((item): item is StoryItemModel => item !== null);
     }
-
-    /**
-     * Convert model back to plain object
-     */
+    getCleanText(): string {
+        return this.text.replaceAll(/<[^>]*>/g, '');
+    }
+    getReadingTime(): number {
+        const wordsPerMinute = 200;
+        const wordCount = this.getCleanText().split(/\s+/).length;
+        return Math.ceil(wordCount / wordsPerMinute);
+    }
+    isComment(): boolean {
+        return this.type === 'comment';
+    }
+    isJob(): boolean {
+        return this.type === 'job';
+    }
+    isStory(): boolean {
+        return this.type === 'story';
+    }
     toJSON(): StoryItemType {
         return {
             by: this.by === 'Anonymous' ? undefined : this.by,
@@ -180,63 +166,6 @@ export class StoryItemModel {
             url: this.url || undefined,
         };
     }
-
-    /**
-     * Get clean text without HTML tags
-     */
-    getCleanText(): string {
-        return this.text.replace(/<[^>]*>/g, '');
-    }
-
-    /**
-     * Check if item is a story
-     */
-    isStory(): boolean {
-        return this.type === 'story';
-    }
-
-    /**
-     * Check if item is a comment
-     */
-    isComment(): boolean {
-        return this.type === 'comment';
-    }
-
-    /**
-     * Check if item is a job
-     */
-    isJob(): boolean {
-        return this.type === 'job';
-    }
-
-    /**
- * Get reading time estimate
- */
-    getReadingTime(): number {
-        const wordsPerMinute = 200;
-        const wordCount = this.getCleanText().split(/\s+/).length;
-        return Math.ceil(wordCount / wordsPerMinute);
-    }
-
-    /**
-     * Calculate formatted time string
-     */
-    private calculateTimeFormatted(unixTime: number): string {
-        const now = Date.now() / 1000;
-        const diffSeconds = now - unixTime;
-
-        if (diffSeconds < 3600) {
-            return `${Math.floor(diffSeconds / 60)}m ago`;
-        } else if (diffSeconds < 86_400) {
-            return `${Math.floor(diffSeconds / 3600)}h ago`;
-        } else {
-            return `${Math.floor(diffSeconds / 86_400)}d ago`;
-        }
-    }
-
-    /**
-     * Extract domain from URL
-     */
     private calculateDomain(url: string): string {
         try {
             return new URL(url).hostname.replace('www.', '');
@@ -244,14 +173,10 @@ export class StoryItemModel {
             return '';
         }
     }
-
-    /**
-     * Calculate story type label
-     */
+    private calculateTimeFormatted(unixTime: number): string {
+        return formatTime(unixTime);
+    }
     private calculateTypeLabel(): string {
-        if (this.type === 'job') return 'job';
-        if (this.type === 'story' && !this.url && this.title?.startsWith('Ask HN:')) return 'ask';
-        if (this.type === 'story' && this.title?.startsWith('Show HN:')) return 'show';
-        return 'story';
+        return formatStoryType(this.type, this.title, this.url);
     }
 } 
