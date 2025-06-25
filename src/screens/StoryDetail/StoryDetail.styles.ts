@@ -189,9 +189,11 @@ export const useStoryDetailStyles = () => {
       {
         backgroundColor: colors.gray100,
         borderRadius: 8,
+        marginHorizontal: 16,
       },
       layout.itemsCenter,
-      gutters.marginTop_24,
+      gutters.marginTop_16,
+      gutters.marginBottom_16,
       gutters.paddingVertical_12,
     ],
     loadMoreText: [

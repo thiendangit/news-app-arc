@@ -104,6 +104,7 @@ export default tseslint.config(
       'react/jsx-no-useless-fragment': OFF,
       'react/jsx-props-no-spreading': OFF,
       'react/jsx-sort-props': OFF, // Handled by perfectionist
+      'react/no-array-index-key': OFF,
       'react/no-multi-comp': OFF,
       'react/no-unescaped-entities': OFF,
       'react/require-default-props': [
