@@ -7,7 +7,7 @@ import {
     ActivityIndicator,
     Alert,
     Animated,
-    Linking,
+    Linking, NativeScrollEvent, NativeSyntheticEvent,
     ScrollView,
     Share,
     StatusBar,
@@ -55,7 +55,6 @@ function StoryDetail({ navigation, route }: Props) {
     },
         selectors: {
             comments,
-            commentsToShow,
             hasMoreComments,
             isError,
             isLoading,
@@ -110,14 +109,14 @@ function StoryDetail({ navigation, route }: Props) {
     const handleScroll = Animated.event(
         [{ nativeEvent: { contentOffset: { y: scrollY } } }],
         {
-            useNativeDriver: false,
-            listener: (event: any) => {
+            listener: (event:  NativeSyntheticEvent<NativeScrollEvent>) => {
                 const offsetY = event.nativeEvent.contentOffset.y;
                 const shouldShowHeader = offsetY > HEADER_IMAGE_HEIGHT - 100;
                 if (shouldShowHeader !== showHeader) {
                     setShowHeader(shouldShowHeader);
                 }
-            }
+            },
+            useNativeDriver: false
         }
     );
     const renderStoryPreview = (url?: string) => {
@@ -327,12 +326,12 @@ function StoryDetail({ navigation, route }: Props) {
             ]}>
                 <View style={styles.animatedHeaderContent}>
                     <TouchableOpacity
-                        onPress={() => navigation.goBack()}
+                        onPress={() => { navigation.goBack(); }}
                         style={styles.animatedBackButton}
                     >
                         <IconByVariant path="arrow-left" stroke={theme.colors.gray800} />
                     </TouchableOpacity>
-                    <Text style={styles.animatedHeaderTitle} numberOfLines={1}>
+                    <Text numberOfLines={1} style={styles.animatedHeaderTitle}>
                         {getEnhancedTitle()}
                     </Text>
                     <TouchableOpacity onPress={handleLike} style={styles.animatedLikeButton}>
