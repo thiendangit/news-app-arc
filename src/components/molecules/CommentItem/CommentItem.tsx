@@ -98,11 +98,12 @@ export const CommentItem: React.FC<CommentItemProps> = ({
             borderRadius: 12,
             elevation: depth > 0 ? 0 : 0,
             marginBottom: 12,
-            padding: 16,
+            padding: 8,
+            paddingTop: 0,
             shadowColor: '#000',
             shadowOffset: { height: 1, width: 0 },
             shadowOpacity: 0,
-            shadowRadius: 2,
+            shadowRadius: 2
         },
         commentHeader: {
             alignItems: 'center' as const,
@@ -167,7 +168,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({
                     <Text style={styles.commentText}>
                         {comment.text.replaceAll(/<[^>]*>/g, '')}
                     </Text>
-                ) : null}
+                ) : undefined}
                 { }
                 {hasUrls ? <View>
                     {urls.slice(0, 2).map((url, index) => renderLinkPreview(url, index))}
@@ -176,7 +177,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({
                             +{urls.length - 2} more links
                         </Text>
                     )}
-                </View> : null}
+                </View> : undefined}
                 {hasReplies ? (
                     <TouchableOpacity
                         disabled={isLoadingReplies}
@@ -196,12 +197,12 @@ export const CommentItem: React.FC<CommentItemProps> = ({
                             </Text>
                         )}
                     </TouchableOpacity>
-                ) : null}
+                ) : undefined}
             </View>
             { }
             {isExpanded && children ? <View style={styles.repliesContainer}>
                 {children}
-            </View> : null}
+            </View> : undefined}
         </View>
     );
 }; 

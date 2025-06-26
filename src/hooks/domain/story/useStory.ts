@@ -28,7 +28,8 @@ export const useStory = () => {
     const useStoryWithCommentsQuery = (id: number, maxComments = 10) => {
         return useQuery({
             enabled: !!id,
-            gcTime: CACHE_TIMES.LONG, 
+            gcTime: CACHE_TIMES.LONG,
+            placeholderData: (previousData) => previousData,
             queryFn: () => storyService.getStoryWithComments(id, maxComments),
             queryKey: [QUERY_KEYS.STORY_WITH_COMMENTS, id, maxComments],
             staleTime: STALE_TIMES.MEDIUM,
@@ -40,7 +41,7 @@ export const useStory = () => {
             gcTime: CACHE_TIMES.EXTENDED,
             queryFn: () => storyService.getItem(id),
             queryKey: [QUERY_KEYS.ITEM, id],
-            staleTime: STALE_TIMES.LONG, 
+            staleTime: STALE_TIMES.LONG,
         });
     };
     const useCommentsQuery = (commentIds: number[]) => {

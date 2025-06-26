@@ -6,7 +6,7 @@ import isEqual from 'react-fast-compare';
 import {
     ActivityIndicator,
     Alert,
-    Dimensions,
+    Animated,
     Linking,
     ScrollView,
     Share,
@@ -15,7 +15,6 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
 
 import { useI18n } from '@/hooks';
 import { useTheme } from '@/theme';
@@ -45,6 +44,10 @@ function StoryDetail({ navigation, route }: Props) {
     const [expandedComments, setExpandedComments] = useState<Set<number>>(new Set());
     const [isLike, setIsLike] = useState<boolean>(true);
     const [previewData, setPreviewData] = useState<PreviewData>();
+    const [scrollY] = useState(new Animated.Value(0));
+    const [showHeader, setShowHeader] = useState(false);
+
+    const HEADER_IMAGE_HEIGHT = 300;
     const { handlers: {
         fetchReplies,
         handleResetError,
@@ -52,6 +55,7 @@ function StoryDetail({ navigation, route }: Props) {
     },
         selectors: {
             comments,
+            commentsToShow,
             hasMoreComments,
             isError,
             isLoading,
@@ -102,6 +106,20 @@ function StoryDetail({ navigation, route }: Props) {
     const handlePreviewDataFetched = useCallback((data: PreviewData) => {
         setPreviewData(data);
     }, []);
+
+    const handleScroll = Animated.event(
+        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+        {
+            useNativeDriver: false,
+            listener: (event: any) => {
+                const offsetY = event.nativeEvent.contentOffset.y;
+                const shouldShowHeader = offsetY > HEADER_IMAGE_HEIGHT - 100;
+                if (shouldShowHeader !== showHeader) {
+                    setShowHeader(shouldShowHeader);
+                }
+            }
+        }
+    );
     const renderStoryPreview = (url?: string) => {
         if (!url) {
             return (
@@ -163,15 +181,15 @@ function StoryDetail({ navigation, route }: Props) {
                 {isExpanded && isLoadingReplies ? (
                     // Skeleton loading for replies
                     <View style={{ marginLeft: (depth + 1) * 16, marginTop: 8 }}>
-                        {[...Array(2)].map((_, index) => (
+                        {Array.from({ length: 2 }).map((_, index) => (
                             <View key={index} style={{ marginBottom: 12, paddingVertical: 8 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
-                                    <Skeleton loading height={12} width="18%" style={{ marginRight: 10 }} />
-                                    <Skeleton loading height={10} width="12%" />
+                                <View style={{ alignItems: 'center', flexDirection: 'row', marginBottom: 6 }}>
+                                    <Skeleton height={12} loading style={{ marginRight: 10 }} width="18%" />
+                                    <Skeleton height={10} loading width="12%" />
                                 </View>
-                                <Skeleton loading height={14} width="100%" style={{ marginBottom: 4 }} />
-                                <Skeleton loading height={14} width="75%" style={{ marginBottom: 4 }} />
-                                <Skeleton loading height={14} width="60%" />
+                                <Skeleton height={14} loading style={{ marginBottom: 4 }} width="100%" />
+                                <Skeleton height={14} loading style={{ marginBottom: 4 }} width="75%" />
+                                <Skeleton height={14} loading width="60%" />
                             </View>
                         ))}
                     </View>
@@ -199,32 +217,32 @@ function StoryDetail({ navigation, route }: Props) {
                 </View>
                 <ScrollView style={styles.scrollViewContainer}>
                     <View style={{ paddingHorizontal: 16, paddingVertical: 20 }}>
-                        <Skeleton loading height={200} width="100%" style={{ marginBottom: 16, borderRadius: 12 }} />
-                        <Skeleton loading height={24} width="60%" style={{ marginBottom: 8 }} />
-                        <Skeleton loading height={48} width="100%" style={{ marginBottom: 12 }} />
-                        <Skeleton loading height={16} width="40%" style={{ marginBottom: 16 }} />
+                        <Skeleton height={200} loading style={{ borderRadius: 12, marginBottom: 16 }} width="100%" />
+                        <Skeleton height={24} loading style={{ marginBottom: 8 }} width="60%" />
+                        <Skeleton height={48} loading style={{ marginBottom: 12 }} width="100%" />
+                        <Skeleton height={16} loading style={{ marginBottom: 16 }} width="40%" />
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Skeleton loading height={16} width="30%" />
-                            <Skeleton loading height={16} width="20%" />
+                            <Skeleton height={16} loading width="30%" />
+                            <Skeleton height={16} loading width="20%" />
                         </View>
                     </View>
                     <View style={{ paddingHorizontal: 16 }}>
-                        <Skeleton loading height={16} width="100%" style={{ marginBottom: 8 }} />
-                        <Skeleton loading height={16} width="90%" style={{ marginBottom: 8 }} />
-                        <Skeleton loading height={16} width="85%" style={{ marginBottom: 16 }} />
-                        <Skeleton loading height={40} width="50%" style={{ marginBottom: 20, borderRadius: 20 }} />
+                        <Skeleton height={16} loading style={{ marginBottom: 8 }} width="100%" />
+                        <Skeleton height={16} loading style={{ marginBottom: 8 }} width="90%" />
+                        <Skeleton height={16} loading style={{ marginBottom: 16 }} width="85%" />
+                        <Skeleton height={40} loading style={{ borderRadius: 20, marginBottom: 20 }} width="50%" />
                     </View>
                     <View style={{ paddingHorizontal: 16 }}>
-                        <Skeleton loading height={20} width="40%" style={{ marginBottom: 16 }} />
-                        {[...Array(3)].map((_, index) => (
+                        <Skeleton height={20} loading style={{ marginBottom: 16 }} width="40%" />
+                        {Array.from({ length: 3 }).map((_, index) => (
                             <View key={index} style={{ marginBottom: 16 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
-                                    <Skeleton loading height={16} width="25%" style={{ marginRight: 12 }} />
-                                    <Skeleton loading height={12} width="15%" />
+                                <View style={{ alignItems: 'center', flexDirection: 'row', marginBottom: 8 }}>
+                                    <Skeleton height={16} loading style={{ marginRight: 12 }} width="25%" />
+                                    <Skeleton height={12} loading width="15%" />
                                 </View>
-                                <Skeleton loading height={16} width="100%" style={{ marginBottom: 4 }} />
-                                <Skeleton loading height={16} width="80%" style={{ marginBottom: 4 }} />
-                                <Skeleton loading height={16} width="60%" />
+                                <Skeleton height={16} loading style={{ marginBottom: 4 }} width="100%" />
+                                <Skeleton height={16} loading style={{ marginBottom: 4 }} width="80%" />
+                                <Skeleton height={16} loading width="60%" />
                             </View>
                         ))}
                     </View>
@@ -289,13 +307,39 @@ function StoryDetail({ navigation, route }: Props) {
         }
         return undefined;
     };
+
     return (
         <View style={styles.container}>
             <StatusBar
                 backgroundColor="transparent"
-                barStyle="light-content"
+                barStyle={showHeader ? "dark-content" : "light-content"}
                 translucent
             />
+            {/* Animated Header */}
+            <Animated.View style={[
+                styles.animatedHeader,
+                {
+                    opacity: showHeader ? 1 : 0,
+                    transform: [{
+                        translateY: showHeader ? 0 : -50
+                    }]
+                }
+            ]}>
+                <View style={styles.animatedHeaderContent}>
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack()}
+                        style={styles.animatedBackButton}
+                    >
+                        <IconByVariant path="arrow-left" stroke={theme.colors.gray800} />
+                    </TouchableOpacity>
+                    <Text style={styles.animatedHeaderTitle} numberOfLines={1}>
+                        {getEnhancedTitle()}
+                    </Text>
+                    <TouchableOpacity onPress={handleLike} style={styles.animatedLikeButton}>
+                        <AssetByVariant path={isLike ? "heart_tint" : "heart"} style={styles.animatedLikeIcon} />
+                    </TouchableOpacity>
+                </View>
+            </Animated.View>
             <View style={styles.row}>
                 { }
                 <View style={styles.floatingBackButton}>
@@ -319,6 +363,8 @@ function StoryDetail({ navigation, route }: Props) {
             <ScrollView
                 bounces
                 contentContainerStyle={{ paddingBottom: 40 }}
+                onScroll={handleScroll}
+                scrollEventThrottle={16}
                 showsVerticalScrollIndicator={false}
                 style={styles.scrollViewContainer}
             >
@@ -408,18 +454,18 @@ function StoryDetail({ navigation, route }: Props) {
                         {isLoading && comments.length === 0 ? (
                             // Skeleton loading for comments
                             <View style={{ paddingHorizontal: 0 }}>
-                                {[...Array(4)].map((_, index) => (
+                                {Array.from({ length: 4 }).map((_, index) => (
                                     <View key={index} style={{ marginBottom: 20, paddingVertical: 12 }}>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
-                                            <Skeleton loading height={14} width="20%" style={{ marginRight: 12 }} />
-                                            <Skeleton loading height={12} width="15%" />
+                                        <View style={{ alignItems: 'center', flexDirection: 'row', marginBottom: 8 }}>
+                                            <Skeleton height={14} loading style={{ marginRight: 12 }} width="20%" />
+                                            <Skeleton height={12} loading width="15%" />
                                         </View>
-                                        <Skeleton loading height={16} width="100%" style={{ marginBottom: 6 }} />
-                                        <Skeleton loading height={16} width="85%" style={{ marginBottom: 6 }} />
-                                        <Skeleton loading height={16} width="70%" style={{ marginBottom: 10 }} />
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Skeleton loading height={12} width="12%" style={{ marginRight: 16 }} />
-                                            <Skeleton loading height={12} width="10%" />
+                                        <Skeleton height={16} loading style={{ marginBottom: 6 }} width="100%" />
+                                        <Skeleton height={16} loading style={{ marginBottom: 6 }} width="85%" />
+                                        <Skeleton height={16} loading style={{ marginBottom: 10 }} width="70%" />
+                                        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                                            <Skeleton height={12} loading style={{ marginRight: 16 }} width="12%" />
+                                            <Skeleton height={12} loading width="10%" />
                                         </View>
                                     </View>
                                 ))}
@@ -440,22 +486,19 @@ function StoryDetail({ navigation, route }: Props) {
                                 </Text>
                             </View>
                         )}
-                        {isLoadingMore && (
-                            // Skeleton loading for loading more comments
-                            <View style={{ marginTop: 16 }}>
-                                {[...Array(2)].map((_, index) => (
-                                    <View key={index} style={{ marginBottom: 20, paddingVertical: 12 }}>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
-                                            <Skeleton loading height={14} width="20%" style={{ marginRight: 12 }} />
-                                            <Skeleton loading height={12} width="15%" />
-                                        </View>
-                                        <Skeleton loading height={16} width="100%" style={{ marginBottom: 6 }} />
-                                        <Skeleton loading height={16} width="85%" style={{ marginBottom: 6 }} />
-                                        <Skeleton loading height={16} width="70%" />
+                        {isLoadingMore ? <View style={{ marginTop: 16 }}>
+                            {Array.from({ length: 2 }).map((_, index) => (
+                                <View key={index} style={{ marginBottom: 20, paddingVertical: 12 }}>
+                                    <View style={{ alignItems: 'center', flexDirection: 'row', marginBottom: 8 }}>
+                                        <Skeleton height={14} loading style={{ marginRight: 12 }} width="20%" />
+                                        <Skeleton height={12} loading width="15%" />
                                     </View>
-                                ))}
-                            </View>
-                        )}
+                                    <Skeleton height={16} loading style={{ marginBottom: 6 }} width="100%" />
+                                    <Skeleton height={16} loading style={{ marginBottom: 6 }} width="85%" />
+                                    <Skeleton height={16} loading width="70%" />
+                                </View>
+                            ))}
+                        </View> : undefined}
                         {hasMoreComments && !isLoadingMore ? (
                             <TouchableOpacity
                                 onPress={loadMoreComments}
@@ -465,7 +508,7 @@ function StoryDetail({ navigation, route }: Props) {
                                     {t('story_detail.load_more_comments')}
                                 </Text>
                             </TouchableOpacity>
-                        ) : undefined}
+                        ) : <ActivityIndicator />}
                     </View>
                 </View>
             </ScrollView>

@@ -31,6 +31,55 @@ export const useStoryDetailStyles = () => {
         gap: 12,
       },
     ],
+    animatedBackButton: [
+      {
+        height: 40,
+        width: 40,
+      },
+      layout.itemsCenter,
+      layout.justifyCenter,
+    ],
+    animatedHeader: [
+      {
+        backgroundColor: colors.gray50,
+        position: 'absolute' as const,
+        top: 0,
+        width: '100%' as const,
+        zIndex: 1001,
+      },
+    ],
+    animatedHeaderContent: [
+      {
+        alignItems: 'center' as const,
+        flexDirection: 'row' as const,
+        height: 95,
+        justifyContent: 'space-between' as const,
+        paddingTop: 44,
+      },
+      gutters.paddingHorizontal_24,
+    ],
+    animatedHeaderTitle: [
+      fonts.size_16,
+      fonts.bold,
+      fonts.gray800,
+      {
+        flex: 1,
+        textAlign: 'center' as const,
+      },
+      gutters.marginHorizontal_16,
+    ],
+    animatedLikeButton: [
+      {
+        height: 40,
+        width: 40,
+      },
+      layout.itemsCenter,
+      layout.justifyCenter,
+    ],
+    animatedLikeIcon: {
+      height: 24,
+      width: 24,
+    },
     backButton: [
       {
         backgroundColor: 'rgba(255,255,255,0.9)',

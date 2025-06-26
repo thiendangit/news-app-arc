@@ -1,6 +1,7 @@
 import { StoryItemModel, StoryWithDetailsModel } from '@/models';
 import { storyService } from '@/services';
 import { useEffect, useMemo, useState } from 'react';
+
 import { useStory } from '@/hooks';
 export const useStoryDetailViewModel = (storyId: number, initialStory?: StoryWithDetailsModel) => {
     const { useStoryWithCommentsQuery } = useStory();
@@ -15,9 +16,14 @@ export const useStoryDetailViewModel = (storyId: number, initialStory?: StoryWit
     useEffect(() => {
         if (storyQuery.data?.comments) {
             setDisplayedComments(storyQuery.data.comments);
-            setIsLoadingMoreComments(false);
         }
     }, [storyQuery.data?.comments]);
+
+    useEffect(() => {
+        if (!storyQuery.isLoading && !storyQuery.isFetching) {
+            setIsLoadingMoreComments(false);
+        }
+    }, [storyQuery.isLoading, storyQuery.isFetching]);
     const hasMoreComments = story?.kids && commentsToShow < story.kids.length;
     const handleResetError = () => {
         storyQuery.refetch();
@@ -26,7 +32,7 @@ export const useStoryDetailViewModel = (storyId: number, initialStory?: StoryWit
         await storyQuery.refetch();
     };
     const loadMoreComments = () => {
-        if (story?.kids && commentsToShow < story.kids.length) {
+        if (story?.kids && commentsToShow < story.kids.length && !isLoadingMoreComments && !storyQuery.isFetching) {
             setIsLoadingMoreComments(true);
             const newCommentsToShow = Math.min(commentsToShow + 10, story.kids.length);
             setCommentsToShow(newCommentsToShow);
@@ -53,31 +59,31 @@ export const useStoryDetailViewModel = (storyId: number, initialStory?: StoryWit
         }
     };
     return {
+        handlers: {
+            fetchReplies,
+            handleRefresh,
+            handleResetError,
+            loadMoreComments,
+        },
         selectors: {
+            comments: displayedComments,
+            commentsToShow,
             error: storyQuery.error,
+            hasMoreComments: !!hasMoreComments,
             isError: storyQuery.isError,
             isLoading: storyQuery.isLoading,
-            isRefreshing: storyQuery.isRefetching,
-            story: story,
-            comments: displayedComments,
-            hasMoreComments: !!hasMoreComments,
             isLoadingMore: isLoadingMoreComments,
+            isRefreshing: storyQuery.isRefetching,
             loadingRepliesIds,
-            commentsToShow,
-        },
-        handlers: {
-            handleResetError,
-            handleRefresh,
-            loadMoreComments,
-            fetchReplies,
+            story: story,
         },
         tests: {
-            storyQuery,
             displayedComments,
-            setDisplayedComments,
             setCommentsToShow,
-            setLoadingRepliesIds,
+            setDisplayedComments,
             setIsLoadingMoreComments,
+            setLoadingRepliesIds,
+            storyQuery,
         },
     };
 }; 
