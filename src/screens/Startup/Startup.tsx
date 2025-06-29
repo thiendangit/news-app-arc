@@ -23,7 +23,7 @@ function Startup({ navigation, route }: RootScreenProps<Paths.Startup>) {
       <View style={styles.container}>
         <AssetByVariant path="logo" resizeMode="contain" style={styles.image} />
         {isFetching ? (
-          <ActivityIndicator size="large" style={styles.loadingIndicator} />
+          <ActivityIndicator size="large" style={styles.loadingIndicator} testID="loading-indicator" />
         ) : undefined}
         {isError ? (
           <Text style={styles.errorText}>{t('common_error')}</Text>
