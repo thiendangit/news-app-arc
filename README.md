@@ -37,7 +37,7 @@ A high-performance React Native application for browsing Hacker News with optimi
 
 1. **Clone Repository**
    ```bash
-   git clone https://github.com/thiendangit/news-app-arc.git
+   git clone https://github.com/thiendangit/news-app-arc.git MyHackerAPIApp
    cd MyHackerAPIApp
    ```
 
