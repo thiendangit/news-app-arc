@@ -5,27 +5,37 @@ import { useTranslation } from 'react-i18next';
 
 import { useI18n, useStory } from '@/hooks';
 import { useTheme } from '@/theme';
+
 const STORY_CATEGORIES = [
   { id: 'new', label: 'New', type: StoryType.NEW },
   { id: 'best', label: 'Best', type: StoryType.BEST },
   { id: 'top', label: 'Top', type: StoryType.TOP },
 ];
+
 export const useHomeViewModel = () => {
   const { t } = useTranslation();
+
   const { useInfiniteStoriesQuery, useStoriesQuery } = useStory();
+
   const { toggleLanguage } = useI18n();
+
   const theme = useTheme();
+
   const [selectedCategory, setSelectedCategory] = useState<StoryType>(
     StoryType.NEW,
   );
   const [currentPage, setCurrentPage] = useState(0);
   const [useInfiniteScroll, setUseInfiniteScroll] = useState(true);
+
   const infiniteStoriesQuery = useInfiniteStoriesQuery(selectedCategory, 10);
   const storiesQuery = useStoriesQuery(selectedCategory, currentPage, 10);
+
   const activeQuery = useInfiniteScroll ? infiniteStoriesQuery : storiesQuery;
+
   const stories: StoryItemModel[] = useInfiniteScroll
     ? (infiniteStoriesQuery.data?.pages.flat() ?? [])
     : (storiesQuery.data ?? []);
+
   const newsData = stories.map((story) => ({
     commentsCount: story.descendants,
     domain: story.domain,
@@ -37,6 +47,7 @@ export const useHomeViewModel = () => {
     type: story.typeLabel,
     url: story.url,
   }));
+
   const handleCategorySelect = (categoryId: string) => {
     const category = STORY_CATEGORIES.find((cat) => cat.id === categoryId);
     if (category && category.type !== selectedCategory) {
@@ -44,9 +55,11 @@ export const useHomeViewModel = () => {
       setCurrentPage(0);
     }
   };
+
   const handleRefresh = async () => {
     await (useInfiniteScroll ? infiniteStoriesQuery.refetch() : storiesQuery.refetch());
   };
+
   const handleResetError = () => {
     if (useInfiniteScroll) {
       infiniteStoriesQuery.refetch();
@@ -54,6 +67,7 @@ export const useHomeViewModel = () => {
       storiesQuery.refetch();
     }
   };
+
   const loadMore = async () => {
     if (
       useInfiniteScroll &&
@@ -63,16 +77,19 @@ export const useHomeViewModel = () => {
       await infiniteStoriesQuery.fetchNextPage();
     }
   };
+
   const loadNextPage = () => {
     if (!useInfiniteScroll && !storiesQuery.isLoading) {
       setCurrentPage((previous) => previous + 1);
     }
   };
+
   const loadPreviousPage = () => {
     if (!useInfiniteScroll && currentPage > 0 && !storiesQuery.isLoading) {
       setCurrentPage((previous) => previous - 1);
     }
   };
+
   return {
     handlers: {
       handleCategorySelect,

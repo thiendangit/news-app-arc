@@ -65,9 +65,10 @@ export default tseslint.config(
       '@typescript-eslint/no-floating-promises': OFF,
       '@typescript-eslint/no-misused-promises': OFF,
       '@typescript-eslint/no-unsafe-assignment': OFF,
+      '@typescript-eslint/no-unused-vars': OFF,
       '@typescript-eslint/restrict-template-expressions': OFF,
-      'import/no-unresolved': OFF, // handled by TypeScript
 
+      'import/no-unresolved': OFF, // handled by TypeScript
       'no-console': [ERROR, { allow: ['warn', 'error'] }],
       'perfectionist/sort-imports': [
         'error',

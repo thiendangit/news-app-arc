@@ -1,9 +1,11 @@
 import type { ThemeConfiguration } from '@/theme/types/config';
 
 import { DarkTheme, DefaultTheme } from '@react-navigation/native';
+
 export const enum Variant {
   DARK = 'dark',
 }
+
 const colorsLight = {
   gray100: '#f3f3f3',
   gray200: '#A1A1A1',
@@ -19,6 +21,7 @@ const colorsLight = {
   red500: '#C13333',
   skeleton: '#A1A1A1',
 } as const;
+
 const colorsDark = {
   gray100: '#000000',
   gray200: '#BABABA',
@@ -34,7 +37,9 @@ const colorsDark = {
   red500: '#C13333',
   skeleton: '#303030',
 } as const;
+
 const sizes = [12, 16, 24, 32, 40, 80] as const;
+
 export const config = {
   backgrounds: colorsLight,
   borders: {

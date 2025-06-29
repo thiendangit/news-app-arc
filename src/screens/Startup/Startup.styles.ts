@@ -1,6 +1,8 @@
 import { useTheme } from '@/theme';
+
 export const useStartupStyles = () => {
     const { fonts, gutters, layout } = useTheme();
+
     return {
         container: [
             layout.flex_1,

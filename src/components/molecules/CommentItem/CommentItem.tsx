@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import { useTheme } from '@/theme';
+
 type CommentItemProps = {
     readonly children?: React.ReactNode;
     readonly comment: StoryItemModel;
@@ -20,7 +21,9 @@ type CommentItemProps = {
     readonly isLoadingReplies: boolean;
     readonly onToggleReplies: (comment: StoryItemModel) => void;
 };
+
 const windowWidth = Dimensions.get('window').width;
+
 export const CommentItem: React.FC<CommentItemProps> = ({
     children,
     comment,
@@ -34,9 +37,11 @@ export const CommentItem: React.FC<CommentItemProps> = ({
         const urlRegex = /(https?:\/\/[^\s"<>]+)/gi;
         return text.match(urlRegex) ?? [];
     };
+
     const hasReplies = comment.kids.length > 0;
     const urls = comment.text ? extractUrls(comment.text) : [];
     const hasUrls = urls.length > 0;
+
     const renderLinkPreview = (url: string, index: number) => (
         <View key={index} style={styles.linkPreviewContainer}>
             <LinkPreview
@@ -63,12 +68,14 @@ export const CommentItem: React.FC<CommentItemProps> = ({
             />
         </View>
     );
+
     const indentStyle = {
         borderLeftColor: theme.colors.orange500,
         borderLeftWidth: depth > 0 ? 2 : 0,
         marginLeft: depth * 12,
         paddingLeft: depth > 0 ? 16 : 0,
     };
+
     const styles = {
         avatarPlaceholder: {
             alignItems: 'center' as const,
@@ -169,7 +176,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({
                         {comment.text.replaceAll(/<[^>]*>/g, '')}
                     </Text>
                 ) : undefined}
-                { }
+
                 {hasUrls ? <View>
                     {urls.slice(0, 2).map((url, index) => renderLinkPreview(url, index))}
                     {urls.length > 2 && (
@@ -199,7 +206,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({
                     </TouchableOpacity>
                 ) : undefined}
             </View>
-            { }
+
             {isExpanded && children ? <View style={styles.repliesContainer}>
                 {children}
             </View> : undefined}

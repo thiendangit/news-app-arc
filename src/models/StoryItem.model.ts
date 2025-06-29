@@ -18,7 +18,9 @@ export const StoryItemSchema = z.object({
     type: z.enum(['comment', 'job', 'poll', 'pollopt', 'story']).optional(),
     url: z.string().optional(),
 });
+
 export type StoryItemType = z.infer<typeof StoryItemSchema>;
+
 export class StoryItemModel {
     static version = 1;
     by: string;
@@ -40,6 +42,7 @@ export class StoryItemModel {
     type: 'comment' | 'job' | 'poll' | 'pollopt' | 'story';
     typeLabel: string;
     url: string;
+
     constructor(
         id: number,
         by: string,
@@ -75,8 +78,9 @@ export class StoryItemModel {
         this.timeFormatted = time ? this.calculateTimeFormatted(time) : '';
         this.domain = url ? this.calculateDomain(url) : '';
         this.typeLabel = this.calculateTypeLabel();
-        this.hasExternalUrl = Boolean(url && url.trim());
+        this.hasExternalUrl = Boolean(url.trim());
     }
+
     static instantiate(json: unknown): StoryItemModel {
         const validatedData = StoryItemSchema.parse(json);
         const id = validatedData.id;
@@ -94,6 +98,7 @@ export class StoryItemModel {
         const title = validatedData.title ?? 'No title';
         const type = validatedData.type ?? 'story';
         const url = validatedData.url ?? '';
+
         return new StoryItemModel(
             id,
             by,
@@ -112,41 +117,50 @@ export class StoryItemModel {
             url
         );
     }
+
     static instantiateList(json: unknown[]): StoryItemModel[] {
         return json
             .filter(item => item !== null)
             .map(object => StoryItemModel.instantiate(object));
     }
-    static safeInstantiate(json: unknown): null | StoryItemModel {
+
+    static safeInstantiate(json: unknown): StoryItemModel | undefined {
         try {
             return StoryItemModel.instantiate(json);
         } catch (error) {
             console.warn('Failed to parse StoryItem:', error);
-            return null;
+            return undefined;
         }
     }
+
     static safeInstantiateList(json: unknown[]): StoryItemModel[] {
         return json
             .map(object => StoryItemModel.safeInstantiate(object))
-            .filter((item): item is StoryItemModel => item !== null);
+            .filter((item): item is StoryItemModel => item !== undefined);
     }
+
     getCleanText(): string {
         return this.text.replaceAll(/<[^>]*>/g, '');
     }
+
     getReadingTime(): number {
         const wordsPerMinute = 200;
         const wordCount = this.getCleanText().split(/\s+/).length;
         return Math.ceil(wordCount / wordsPerMinute);
     }
+
     isComment(): boolean {
         return this.type === 'comment';
     }
+
     isJob(): boolean {
         return this.type === 'job';
     }
+
     isStory(): boolean {
         return this.type === 'story';
     }
+
     toJSON(): StoryItemType {
         return {
             by: this.by === 'Anonymous' ? undefined : this.by,
@@ -166,6 +180,7 @@ export class StoryItemModel {
             url: this.url || undefined,
         };
     }
+
     private calculateDomain(url: string): string {
         try {
             return new URL(url).hostname.replace('www.', '');
@@ -173,9 +188,11 @@ export class StoryItemModel {
             return '';
         }
     }
+
     private calculateTimeFormatted(unixTime: number): string {
         return formatTime(unixTime);
     }
+
     private calculateTypeLabel(): string {
         return formatStoryType(this.type, this.title, this.url);
     }

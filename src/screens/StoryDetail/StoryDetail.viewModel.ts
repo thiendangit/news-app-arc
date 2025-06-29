@@ -3,16 +3,21 @@ import { storyService } from '@/services';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useStory } from '@/hooks';
+
 export const useStoryDetailViewModel = (storyId: number, initialStory?: StoryWithDetailsModel) => {
     const { useStoryWithCommentsQuery } = useStory();
+
     const [displayedComments, setDisplayedComments] = useState<StoryItemModel[]>([]);
     const [commentsToShow, setCommentsToShow] = useState(10);
     const [loadingRepliesIds, setLoadingRepliesIds] = useState<Set<number>>(new Set());
     const [isLoadingMoreComments, setIsLoadingMoreComments] = useState(false);
+
     const storyQuery = useStoryWithCommentsQuery(storyId, commentsToShow);
+
     const story: StoryWithDetailsModel | undefined = useMemo(() => {
         return storyQuery.data ?? initialStory;
     }, [initialStory, storyQuery.data]);
+
     useEffect(() => {
         if (storyQuery.data?.comments) {
             setDisplayedComments(storyQuery.data.comments);
@@ -24,13 +29,17 @@ export const useStoryDetailViewModel = (storyId: number, initialStory?: StoryWit
             setIsLoadingMoreComments(false);
         }
     }, [storyQuery.isLoading, storyQuery.isFetching]);
+
     const hasMoreComments = story?.kids && commentsToShow < story.kids.length;
+
     const handleResetError = () => {
         storyQuery.refetch();
     };
+
     const handleRefresh = async () => {
         await storyQuery.refetch();
     };
+
     const loadMoreComments = () => {
         if (story?.kids && commentsToShow < story.kids.length && !isLoadingMoreComments && !storyQuery.isFetching) {
             setIsLoadingMoreComments(true);
@@ -38,9 +47,12 @@ export const useStoryDetailViewModel = (storyId: number, initialStory?: StoryWit
             setCommentsToShow(newCommentsToShow);
         }
     };
+
     const fetchReplies = async (commentId: number, replyIds: number[]) => {
         if (replyIds.length === 0) return;
+
         setLoadingRepliesIds(previous => new Set([commentId, ...previous]));
+
         try {
             const replies = await storyService.getComments(replyIds);
             setDisplayedComments(previous => {
@@ -58,6 +70,7 @@ export const useStoryDetailViewModel = (storyId: number, initialStory?: StoryWit
             });
         }
     };
+
     return {
         handlers: {
             fetchReplies,

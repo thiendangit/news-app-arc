@@ -5,6 +5,7 @@ import { memo } from 'react';
 import isEqual from 'react-fast-compare';
 import { Dimensions, StyleProp, View, ViewStyle } from 'react-native';
 import FastImage, { FastImageProps } from 'react-native-fast-image';
+
 type LinkPreviewImageProps = {
     readonly aspectRatio?: number;
     readonly containerStyle?: StyleProp<ViewStyle>;
@@ -14,6 +15,7 @@ type LinkPreviewImageProps = {
     readonly resizeMode?: FastImageProps['resizeMode'];
     readonly url: string;
 } & Partial<LinkPreviewProps>;
+
 function LinkPreviewImageComponent({
     enableAnimation = true,
     onPressEnable = false,
@@ -23,6 +25,7 @@ function LinkPreviewImageComponent({
 }: LinkPreviewImageProps) {
     const windowWidth = Dimensions.get('window').width;
     const defaultAspectRatio = rest.aspectRatio ?? windowWidth / (windowWidth * 0.6);
+
     return (
         <View pointerEvents={onPressEnable ? 'box-only' : 'none'} style={rest.containerStyle}>
             <LinkPreview
@@ -54,4 +57,5 @@ function LinkPreviewImageComponent({
         </View>
     );
 }
+
 export const LinkPreviewImage = memo(LinkPreviewImageComponent, isEqual); 

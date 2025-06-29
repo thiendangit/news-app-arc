@@ -3,6 +3,7 @@ import { storyService, StoryType } from '@/services/storyService';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import { CACHE_TIMES, QUERY_KEYS, STALE_TIMES } from '@/hooks';
+
 export const useStory = () => {
     const useStoriesQuery = (type: StoryType, page = 0, limit = 20) => {
         return useQuery({
@@ -12,6 +13,7 @@ export const useStory = () => {
             staleTime: STALE_TIMES.MEDIUM,
         });
     };
+
     const useInfiniteStoriesQuery = (type: StoryType, limit = 20) => {
         return useInfiniteQuery({
             gcTime: CACHE_TIMES.MEDIUM,
@@ -25,6 +27,7 @@ export const useStory = () => {
             staleTime: STALE_TIMES.MEDIUM,
         });
     };
+
     const useStoryWithCommentsQuery = (id: number, maxComments = 10) => {
         return useQuery({
             enabled: !!id,
@@ -35,6 +38,7 @@ export const useStory = () => {
             staleTime: STALE_TIMES.MEDIUM,
         });
     };
+
     const useItemQuery = (id: number) => {
         return useQuery({
             enabled: !!id,
@@ -44,6 +48,7 @@ export const useStory = () => {
             staleTime: STALE_TIMES.LONG,
         });
     };
+
     const useCommentsQuery = (commentIds: number[]) => {
         return useQuery({
             enabled: commentIds.length > 0,
@@ -53,6 +58,7 @@ export const useStory = () => {
             staleTime: STALE_TIMES.LONG,
         });
     };
+
     const useUserQuery = (username: string) => {
         return useQuery({
             enabled: !!username,
@@ -62,6 +68,7 @@ export const useStory = () => {
             staleTime: STALE_TIMES.LONG,
         });
     };
+
     return {
         useCommentsQuery,
         useInfiniteStoriesQuery,

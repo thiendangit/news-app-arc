@@ -8,12 +8,14 @@ import { useTheme } from '@/theme';
 
 import { DefaultError } from '@/components/molecules';
 import { ErrorBoundary } from '@/components/organisms';
+
 type Properties = PropsWithChildren<
   {
     readonly isError?: boolean;
     readonly onResetError?: () => void;
   } & Omit<SafeAreaViewProps, 'mode'>
 >;
+
 function SafeScreen({
   children = undefined,
   isError = false,
@@ -22,6 +24,7 @@ function SafeScreen({
   ...props
 }: Properties) {
   const { layout, navigationTheme, variant } = useTheme();
+
   return (
     <SafeAreaView
       {...props}
@@ -38,4 +41,5 @@ function SafeScreen({
     </SafeAreaView>
   );
 }
+
 export default SafeScreen;

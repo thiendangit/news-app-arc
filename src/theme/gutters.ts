@@ -2,6 +2,7 @@ import type { UnionConfiguration } from '@/theme/types/config';
 import type { Gutters } from '@/theme/types/gutters';
 
 import { type ViewStyle } from 'react-native';
+
 export const generateGutters = (configuration: UnionConfiguration): Gutters => {
   return configuration.gutters.reduce<Gutters>((accumulator, current) => {
     return Object.assign(accumulator, {
@@ -53,6 +54,7 @@ export const generateGutters = (configuration: UnionConfiguration): Gutters => {
     });
   }, {} as Gutters);
 };
+
 export const staticGutterStyles = {} as const satisfies Record<
   string,
   ViewStyle

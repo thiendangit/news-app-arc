@@ -1,4 +1,5 @@
 import type { ViewStyle } from 'react-native';
+
 export default {
   absolute: {
     position: 'absolute',

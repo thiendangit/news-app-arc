@@ -5,6 +5,7 @@ export const extractDomain = (url: string): string => {
         return '';
     }
 };
+
 export const isValidUrl = (url: string): boolean => {
     try {
         new URL(url);
@@ -13,6 +14,7 @@ export const isValidUrl = (url: string): boolean => {
         return false;
     }
 };
+
 export const getUrlProtocol = (url: string): string => {
     try {
         return new URL(url).protocol;
@@ -20,6 +22,7 @@ export const getUrlProtocol = (url: string): string => {
         return '';
     }
 };
+
 export const isExternalUrl = (url: string): boolean => {
-    return /^https?:\/\
+    return /^https?:\/\//.test(url);
 }; 

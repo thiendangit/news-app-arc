@@ -8,17 +8,21 @@ import {
 } from 'react-native';
 
 import { useTheme } from '@/theme';
+
 type Tab = {
     id: string;
     label: string;
     type: any;
 };
+
 type TabSelectorProps = {
     readonly onTabSelect: (tabId: string) => void;
     readonly selectedTab: any;
     readonly tabs: Tab[];
 };
+
 const { width: screenWidth } = Dimensions.get('window');
+
 export const TabSelector: React.FC<TabSelectorProps> = ({
     onTabSelect,
     selectedTab,
@@ -27,6 +31,7 @@ export const TabSelector: React.FC<TabSelectorProps> = ({
     const { colors, fonts, layout } = useTheme();
     const animatedValue = useRef(new Animated.Value(0)).current;
     const activeIndex = tabs.findIndex(tab => tab.type === selectedTab);
+
     useEffect(() => {
         Animated.spring(animatedValue, {
             friction: 8,
@@ -35,15 +40,18 @@ export const TabSelector: React.FC<TabSelectorProps> = ({
             useNativeDriver: true,
         }).start();
     }, [activeIndex, animatedValue]);
+
     const containerHorizontalPadding = 32;
     const wrapperPadding = 8;
     const wrapperWidth = screenWidth - containerHorizontalPadding;
     const contentWidth = wrapperWidth - wrapperPadding;
     const tabWidth = contentWidth / 3;
+
     const translateX = animatedValue.interpolate({
         inputRange: [0, 1, 2],
         outputRange: [4, tabWidth + 4, (tabWidth * 2) + 4],
     });
+
     const styles = {
         activeTabText: [
             fonts.size_12,
@@ -117,10 +125,10 @@ export const TabSelector: React.FC<TabSelectorProps> = ({
             },
         ],
     };
+
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
-                { }
                 <Animated.View
                     style={[
                         styles.animatedBackground,
@@ -129,7 +137,7 @@ export const TabSelector: React.FC<TabSelectorProps> = ({
                         },
                     ]}
                 />
-                { }
+
                 {tabs.map((tab) => (
                     <TouchableOpacity
                         key={tab.id}

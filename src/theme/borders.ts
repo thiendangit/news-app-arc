@@ -9,6 +9,7 @@ import type { UnionConfiguration } from '@/theme/types/config';
 import type { ViewStyle } from 'react-native';
 
 import { config } from '@/theme/_config';
+
 export const generateBorderColors = (configuration: UnionConfiguration) => {
   return Object.entries(
     configuration.borders.colors,
@@ -20,6 +21,7 @@ export const generateBorderColors = (configuration: UnionConfiguration) => {
     });
   }, {} as BorderColors);
 };
+
 export const generateBorderRadius = () => {
   return config.borders.radius.reduce<
     BorderBottomRadius & BorderRadius & BorderTopRadius
@@ -48,6 +50,7 @@ export const generateBorderRadius = () => {
     {} as BorderBottomRadius & BorderRadius & BorderTopRadius,
   );
 };
+
 export const generateBorderWidths = () => {
   return config.borders.widths.reduce<BorderWidths>((accumulator, width) => {
     return Object.assign(accumulator, {
@@ -69,6 +72,7 @@ export const generateBorderWidths = () => {
     });
   }, {} as BorderWidths);
 };
+
 export const staticBorderStyles = {} as const satisfies Record<
   string,
   ViewStyle

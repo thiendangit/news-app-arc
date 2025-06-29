@@ -7,7 +7,9 @@ import { MMKV } from 'react-native-mmkv';
 import ApplicationNavigator from '@/navigation/Application';
 import { ThemeProvider } from '@/theme';
 import '@/translations';
+
 export const storage = new MMKV();
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {
@@ -20,6 +22,7 @@ export const queryClient = new QueryClient({
     },
   },
 });
+
 function App(): React.JSX.Element {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -31,4 +34,5 @@ function App(): React.JSX.Element {
     </GestureHandlerRootView>
   );
 }
+
 export default App;
